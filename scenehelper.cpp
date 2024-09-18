@@ -1,6 +1,5 @@
 #include "scenehelper.h"
 
-
 QObject *scenehelper::findEntity(Qt3DRender::QSceneLoader *loader, const QString &name)
 {
     // The QSceneLoader instance is a component of an entity. The loaded scene
@@ -34,7 +33,8 @@ void scenehelper::removeFromScene(Qt3DRender::QSceneLoader *loader, const QStrin
 }
 
 void scenehelper::addBasicMaterials(Qt3DRender::QSceneLoader *loader,
-                                    Qt3DRender::QMaterial *material, QStringList names)
+                                    Qt3DRender::QMaterial *material,
+                                    QStringList names)
 {
     QVector<Qt3DCore::QEntity *> entities = loader->entities();
 
@@ -47,7 +47,8 @@ void scenehelper::addBasicMaterials(Qt3DRender::QSceneLoader *loader,
 }
 
 void scenehelper::addTextureMaterial(Qt3DRender::QSceneLoader *loader,
-                                     Qt3DRender::QMaterial *material, QString name)
+                                     Qt3DRender::QMaterial *material,
+                                     QString name)
 {
     QVector<Qt3DCore::QEntity *> entities = loader->entities();
 
@@ -59,7 +60,8 @@ void scenehelper::addTextureMaterial(Qt3DRender::QSceneLoader *loader,
     addComponent(name, root, material);
 }
 
-void scenehelper::replaceMaterial(Qt3DRender::QSceneLoader *loader, const QString &name,
+void scenehelper::replaceMaterial(Qt3DRender::QSceneLoader *loader,
+                                  const QString &name,
                                   Qt3DRender::QMaterial *material)
 {
     QVector<Qt3DCore::QEntity *> entities = loader->entities();
@@ -85,7 +87,8 @@ void scenehelper::replaceMaterial(Qt3DRender::QSceneLoader *loader, const QStrin
     }
 }
 
-void scenehelper::addComponents(QStringList &names, Qt3DCore::QEntity *root,
+void scenehelper::addComponents(QStringList &names,
+                                Qt3DCore::QEntity *root,
                                 Qt3DRender::QMaterial *material)
 {
     foreach (QString name, names) {
@@ -134,14 +137,13 @@ void scenehelper::searchCamera(Qt3DRender::QSceneLoader *loader, const QString &
             Qt3DCore::QCameraLens *lens = qobject_cast<Qt3DCore::QCameraLens *>(comp);
         }
 #endif
-
     }
 }
 
-void scenehelper::addComponent(QString &name, Qt3DCore::QEntity *root,
+void scenehelper::addComponent(QString &name,
+                               Qt3DCore::QEntity *root,
                                Qt3DRender::QMaterial *material)
 {
-
     Qt3DCore::QEntity *entity = root->findChild<Qt3DCore::QEntity *>(name);
 
     if (entity) {
@@ -159,7 +161,6 @@ void scenehelper::addComponent(QString &name, Qt3DCore::QEntity *root,
 
         entity->addComponent(material);
     } else {
-
     }
 }
 

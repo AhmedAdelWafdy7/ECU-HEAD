@@ -3,8 +3,8 @@ import QtQuick.Controls 2.0
 
 ApplicationWindow {
     id:root
-    width: 1280
-    height: 480
+    width: 1024
+    height: 600
     visible: true
     title: qsTr("DashBoard")
     color: "#000"

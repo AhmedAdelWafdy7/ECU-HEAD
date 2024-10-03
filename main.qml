@@ -8,8 +8,8 @@ import QtQuick.VirtualKeyboard 2.15
 
 Window {
     id: window
-    width: 640
-    height: 480
+    width: 1024
+    height: 600
     visible: true
     title: qsTr("Dashboard")
 
@@ -26,163 +26,109 @@ Window {
         id: font
         source: "qrc:/fontawesome.otf"
     }
-    Shortcut{
-        sequence:"Ctrl+E"
-        onActivated: {
-            leftIndi.forceActiveFocus()
-        }
-    }
 
     Image{
-        //visible: false
+        id: panel
         z:-2
-        sourceSize: Qt.size(window.width,window.height * 0.8)
+        sourceSize: Qt.size(window.width,window.height)
         anchors.centerIn: parent
-        source: "Panel.png"
+        source: "qrc:/background.jpg"
 
         //Left Side
-        IconButton{
-            id:leftIndicator
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-left/icon-park-solid_right-two.svg"
-            anchors.right: topBar.left
-            anchors.rightMargin: 40
-            anchors.verticalCenter: topBar.verticalCenter
-            SequentialAnimation {
-                running: leftIndicator.checked
-                loops: Animation.Infinite
-                OpacityAnimator {
-                    target: leftIndicator.roundIcon ? leftIndicator.roundIconSource : leftIndicator.iconSource
-                    from: 0;
-                    to: 1;
-                    duration: 500
-                }
-                OpacityAnimator {
-                    target: leftIndicator.roundIcon ? leftIndicator.roundIconSource : leftIndicator.iconSource
-                    from: 1;
-                    to: 0;
-                    duration: 500
-                }
-            }
-        }
-        IconButton{
-            id:handbreak
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left/mdi_car-handbrake.svg" : "qrc:/icons/icons-left/mdi_car-handbrake.svg"
+        ColumnLayout{
             anchors{
-                right: leftIndicator.left
-                rightMargin: 15
-                verticalCenter: leftIndicator.verticalCenter
-                verticalCenterOffset: 30
+                left: parent.left
+                leftMargin: 20
+                bottom: leftIndicator.top
+                bottomMargin: 40
             }
-        }
-        IconButton{
-            id:battery
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left-checked/mdi_car-battery.svg" : "qrc:/icons/icons-left/mdi_car-battery.svg"
-            anchors{
-                right: handbreak.left
-                rightMargin: 15
-                verticalCenter: handbreak.verticalCenter
-                verticalCenterOffset: 30
+            IconButton{
+                id:handbreak
+                roundIcon: true
+                iconWidth: 45
+                iconHeight: 45
+                checkable: true
+                setIcon:checked ? "qrc:/icons/icons-left/mdi_car-handbrake.svg" : "qrc:/icons/icons-left/mdi_car-handbrake.svg"
             }
-            SequentialAnimation {
-                running: battery.checked
-                loops: Animation.Infinite
-                OpacityAnimator {
-                    target: battery.roundIcon ? battery.roundIconSource : battery.iconSource
-                    from: 0;
-                    to: 1;
-                    duration: 500
-                }
-                OpacityAnimator {
-                    target: battery.roundIcon ? battery.roundIconSource : battery.iconSource
-                    from: 1;
-                    to: 0;
-                    duration: 500
-                }
-            }
-        }
-        IconButton{
-            id:engineBold
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left-checked/ph_engine-bold.svg" : "qrc:/icons/icons-left/ph_engine-bold.svg"
-            anchors{
-                right: battery.left
-                rightMargin: 10
-                verticalCenter: battery.verticalCenter
-                verticalCenterOffset: 35
-            }
-            SequentialAnimation {
-                running: engineBold.checked
-                loops: Animation.Infinite
-                OpacityAnimator {
-                    target: engineBold.roundIcon ? engineBold.roundIconSource : engineBold.iconSource
-                    from: 0;
-                    to: 1;
-                    duration: 500
-                }
-                OpacityAnimator {
-                    target: engineBold.roundIcon ? engineBold.roundIconSource : engineBold.iconSource
-                    from: 1;
-                    to: 0;
-                    duration: 500
+            IconButton{
+                id:battery
+                roundIcon: true
+                iconWidth: 45
+                iconHeight: 45
+                checkable: true
+                setIcon:checked ? "qrc:/icons/icons-left-checked/mdi_car-battery.svg" : "qrc:/icons/icons-left/mdi_car-battery.svg"
+                SequentialAnimation {
+                    running: battery.checked
+                    loops: Animation.Infinite
+                    OpacityAnimator {
+                        target: battery.roundIcon ? battery.roundIconSource : battery.iconSource
+                        from: 0;
+                        to: 1;
+                        duration: 500
+                    }
+                    OpacityAnimator {
+                        target: battery.roundIcon ? battery.roundIconSource : battery.iconSource
+                        from: 1;
+                        to: 0;
+                        duration: 500
+                    }
                 }
             }
-        }
-        IconButton{
-            id:oil
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left-checked/mdi_oil.svg" : "qrc:/icons/icons-left/mdi_oil.svg"
-            anchors{
-                right: engineBold.left
-                rightMargin: 10
-                verticalCenter: engineBold.verticalCenter
-                verticalCenterOffset: 40
-            }
-            SequentialAnimation {
-                running: oil.checked
-                loops: Animation.Infinite
-                OpacityAnimator {
-                    target: oil.roundIcon ? oil.roundIconSource : oil.iconSource
-                    from: 0;
-                    to: 1;
-                    duration: 500
-                }
-                OpacityAnimator {
-                    target: oil.roundIcon ? oil.roundIconSource : oil.iconSource
-                    from: 1;
-                    to: 0;
-                    duration: 500
+            IconButton{
+                id:engineBold
+                roundIcon: true
+                iconWidth: 45
+                iconHeight: 45
+                checkable: true
+                setIcon:checked ? "qrc:/icons/icons-left-checked/ph_engine-bold.svg" : "qrc:/icons/icons-left/ph_engine-bold.svg"
+                SequentialAnimation {
+                    running: engineBold.checked
+                    loops: Animation.Infinite
+                    OpacityAnimator {
+                        target: engineBold.roundIcon ? engineBold.roundIconSource : engineBold.iconSource
+                        from: 0;
+                        to: 1;
+                        duration: 500
+                    }
+                    OpacityAnimator {
+                        target: engineBold.roundIcon ? engineBold.roundIconSource : engineBold.iconSource
+                        from: 1;
+                        to: 0;
+                        duration: 500
+                    }
                 }
             }
-        }
-        IconButton{
-            id:tireAlert
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left/mdi_car-tire-alert.svg" : "qrc:/icons/icons-left/mdi_car-tire-alert.svg"
-            anchors{
-                right: oil.left
-                verticalCenter: oil.verticalCenter
-                verticalCenterOffset: 50
+            IconButton{
+                id:oil
+                roundIcon: true
+                iconWidth: 45
+                iconHeight: 45
+                checkable: true
+                setIcon:checked ? "qrc:/icons/icons-left-checked/mdi_oil.svg" : "qrc:/icons/icons-left/mdi_oil.svg"
+                SequentialAnimation {
+                    running: oil.checked
+                    loops: Animation.Infinite
+                    OpacityAnimator {
+                        target: oil.roundIcon ? oil.roundIconSource : oil.iconSource
+                        from: 0;
+                        to: 1;
+                        duration: 500
+                    }
+                    OpacityAnimator {
+                        target: oil.roundIcon ? oil.roundIconSource : oil.iconSource
+                        from: 1;
+                        to: 0;
+                        duration: 500
+                    }
+                }
+            }
+            IconButton{
+                id:tireAlert
+                roundIcon: true
+                iconWidth: 45
+                iconHeight: 45
+                checkable: true
+                setIcon:checked ? "qrc:/icons/icons-left/mdi_car-tire-alert.svg" : "qrc:/icons/icons-left/mdi_car-tire-alert.svg"
             }
         }
 
@@ -227,33 +173,12 @@ Window {
             }
         }
 
-        //Right Side
-        IconButton{
-            id:rightIndicator
-            roundIcon: true
-            iconWidth: 45
-            iconHeight: 45
-            checkable: true
-            setIcon:checked ? "qrc:/icons/icons-right-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
-            anchors.left: topBar.right
-            anchors.leftMargin: 40
-            anchors.verticalCenter: topBar.verticalCenter
-            SequentialAnimation {
-                running: rightIndicator.checked
-                loops: Animation.Infinite
-                OpacityAnimator {
-                    target: rightIndicator.roundIcon ? rightIndicator.roundIconSource : rightIndicator.iconSource
-                    from: 0;
-                    to: 1;
-                    duration: 500
-                }
-                OpacityAnimator {
-                    target: rightIndicator.roundIcon ? rightIndicator.roundIconSource : rightIndicator.iconSource
-                    from: 1;
-                    to: 0;
-                    duration: 500
-                }
-            }
+    ColumnLayout{
+        anchors{
+            right: parent.right
+            rightMargin: 20
+            bottom: rightIndicator.top
+            bottomMargin: 40
         }
         IconButton{
             id:seatBreak
@@ -262,12 +187,6 @@ Window {
             iconHeight: 45
             checkable: true
             setIcon:checked ? "qrc:/icons/icons-right/mdi_seatbelt.svg" : "qrc:/icons/icons-right/mdi_seatbelt.svg"
-            anchors{
-                left: rightIndicator.right
-                leftMargin: 15
-                verticalCenter: rightIndicator.verticalCenter
-                verticalCenterOffset: 30
-            }
         }
         IconButton{
             id:breakParking
@@ -276,12 +195,6 @@ Window {
             iconHeight: 45
             checkable: true
             setIcon:checked ? "qrc:/icons/icons-right/mdi_car-brake-parking.svg" : "qrc:/icons/icons-right/mdi_car-brake-parking.svg"
-            anchors{
-                left: seatBreak.right
-                leftMargin: 15
-                verticalCenter: seatBreak.verticalCenter
-                verticalCenterOffset: 30
-            }
         }
         IconButton{
             id:lightDimmed
@@ -290,12 +203,6 @@ Window {
             iconHeight: 45
             checkable: true
             setIcon:checked ? "qrc:/icons/icons-right/mdi_car-light-dimmed.svg" : "qrc:/icons/icons-right/mdi_car-light-dimmed.svg"
-            anchors{
-                left: breakParking.right
-                leftMargin: 10
-                verticalCenter: breakParking.verticalCenter
-                verticalCenterOffset: 35
-            }
         }
         IconButton{
             id:lightHigh
@@ -304,12 +211,6 @@ Window {
             iconHeight: 45
             checkable: true
             setIcon:checked ? "qrc:/icons/icons-right-checked/mdi_car-light-high.svg" : "qrc:/icons/icons-right/mdi_car-light-high.svg"
-            anchors{
-                left: lightDimmed.right
-                leftMargin: 10
-                verticalCenter: lightDimmed.verticalCenter
-                verticalCenterOffset: 40
-            }
         }
         IconButton{
             id:lightFog
@@ -318,13 +219,8 @@ Window {
             iconHeight: 45
             checkable: true
             setIcon:checked ? "qrc:/icons/icons-right/mdi_car-light-fog.svg" : "qrc:/icons/icons-right/mdi_car-light-fog.svg"
-            anchors{
-                left: lightHigh.right
-                verticalCenter: lightHigh.verticalCenter
-                verticalCenterOffset: 50
-            }
         }
-
+    }
         Image{
             id:leftgauge
             sourceSize: Qt.size(window.height /1.4 ,window.height /1.4)
@@ -379,79 +275,17 @@ Window {
                 }
             }
         }
-
-        RowLayout{
-            width: topBar.width * 0.5
+        Text{
             anchors.top: topBar.bottom
             anchors.horizontalCenter: topBar.horizontalCenter
-            anchors.horizontalCenterOffset: 70
-            Item{
-                Layout.fillWidth: true
-            }
-
-            Image{
-                Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/icons/Road/mdi_turn-right-bold.svg"
-                sourceSize: Qt.size(85,85)
-            }
-
-            ColumnLayout{
-                Layout.alignment: Qt.AlignHCenter
-                Text{
-                    font.pixelSize: 32
-                    font.bold: true
-                    font.weight: Font.Normal
-                    font.family: "TacticSans-Blk"
-                    color: "#FFFFFF"
-                    text: qsTr("372 m")
-                }
-                Text{
-                    font.pixelSize: 14
-                    font.bold: true
-                    font.weight: Font.Normal
-                    font.family: "TacticSans-Lgt"
-                    color: "#00D1FF"
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTr("Enter St. Street and \ntake first right")
-                }
-                Item{
-                    Layout.preferredHeight: 25
-                }
-            }
-            Item{
-                Layout.fillWidth: true
-            }
+            font.pixelSize: 28
+            font.bold: true
+            font.weight: Font.Normal
+            font.family: "TacticSans-Lgt"
+            color: "#00D1FF"
+            text: qsTr("WAFDUNIX")
         }
 
-        Image{
-            source: "qrc:/icons/Road/mingcute_steering-wheel-fill.svg"
-            sourceSize: Qt.size(95,95)
-            anchors.top: topBar.bottom
-            anchors.horizontalCenter: topBar.horizontalCenter
-            anchors.horizontalCenterOffset: 230
-            anchors.topMargin: 10
-        }
-
-        Image{
-            source: "qrc:/icons/Road/ss.svg"
-            sourceSize: Qt.size(95-20,114-20)
-            scale: 0.9
-            anchors.top: topBar.bottom
-            anchors.horizontalCenter: topBar.horizontalCenter
-            anchors.horizontalCenterOffset: -230
-            anchors.topMargin: 10
-
-            Text{
-                anchors.centerIn: parent
-                anchors.verticalCenterOffset: 20
-                font.pixelSize: 36
-                font.bold: true
-                font.weight: Font.Normal
-                font.family: "TacticSans-Blk"
-                color: "#090C14"
-                text: qsTr("90")
-            }
-        }
 
         CarLoader{
             id:roadImage
@@ -486,48 +320,6 @@ Window {
             }
         }
 
-        RowLayout{
-            width: roadImage.width * 0.6
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: 220
-
-            Image{
-                Layout.alignment: Qt.AlignLeft
-                source: "qrc:/icons/Road/mdi_map-marker-outline.svg"
-                sourceSize: Qt.size(28,28)
-            }
-
-            Label{
-                Layout.alignment: Qt.AlignLeft
-                font.pixelSize: 24
-                font.bold: true
-                font.weight: Font.Normal
-                font.family: "TacticSans-Med"
-                text: qsTr("26 KM")
-                color: "#FFFFFF"
-            }
-
-            Item{
-                Layout.fillWidth: true
-            }
-
-            Image{
-                Layout.alignment: Qt.AlignRight
-                source: "qrc:/icons/Road/mdi_clock-time-four-outline.svg"
-                sourceSize: Qt.size(28,28)
-            }
-
-            Label{
-                Layout.alignment: Qt.AlignRight
-                font.pixelSize: 24
-                font.bold: true
-                font.weight: Font.Normal
-                font.family: "TacticSans-Med"
-                text: qsTr("22 Min")
-                color: "#FFFFFF"
-            }
-
-        }
 
         Image{
             id:rightgaugae
@@ -571,132 +363,6 @@ Window {
             }
         }
 
-        Image{
-            source: "qrc:/icons/feaul.svg"
-            anchors.bottom: left.top
-            anchors.left: left.left
-            sourceSize: Qt.size(48,48)
-            anchors.bottomMargin: 5
-        }
-
-        Image{
-            id:left
-            source: "qrc:/icons/Vector 1.png"
-            anchors.left: leftgauge.left
-            anchors.bottom: leftgauge.bottom
-            anchors.leftMargin: 10
-            anchors.bottomMargin: 70
-            layer.enabled: true
-            layer.samplerName: "fuelShader"
-            layer.effect: ShaderEffect {
-                id: fuelShaderMask
-                property variant v
-                SequentialAnimation {
-                    running: true
-                    loops: Animation.Infinite
-
-                    UniformAnimator {
-                        target: fuelShaderMask
-                        uniform: "v"
-                        from: 0
-                        to: 1
-                        duration: 5000
-                    }
-                    UniformAnimator {
-                        target: fuelShaderMask
-                        uniform: "v"
-                        from: 1
-                        to: 0
-                        duration: 5000
-                    }
-                }
-
-                fragmentShader: "
-                     uniform lowp sampler2D fuelShader;
-                     uniform lowp float qt_Opacity;
-                     varying highp vec2 qt_TexCoord0;
-                     uniform lowp float v;
-
-                     void main() {
-                        const lowp vec3 c1 = vec3(0.502,0.545,0.11);
-                        const lowp vec3 c2 = vec3(0.247,0.78,0.871);
-                        lowp vec3 bg = mix(c1, c2, 1.0 - qt_TexCoord0.y);
-
-                        // Animated ramp
-                        lowp float s = smoothstep(0.99 - v, 1.01 - v, 1.0 - qt_TexCoord0.y);
-                        lowp vec3 ramp = vec3(s);
-                        lowp vec4 color = vec4(bg + ramp, 1.0);
-
-                        gl_FragColor = color * texture2D(fuelShader, qt_TexCoord0).a * qt_Opacity;
-                     }
-                 "
-            }
-        }
-
-
-        Image{
-            source: "qrc:/icons/desal.svg"
-            anchors.bottom: right.top
-            anchors.right: right.right
-            sourceSize: Qt.size(48,48)
-            anchors.bottomMargin: 5
-        }
-        Image{
-            id:right
-            source:  "qrc:/icons/Vector 1.png"//"qrc:/icons/Vector 2.png"
-            mirror: true
-            anchors.left: rightgaugae.left
-            anchors.leftMargin: rightgaugae.width /2
-            anchors.bottom: rightgaugae.bottom
-            anchors.bottomMargin: 40
-            smooth: true
-            asynchronous: true
-            layer.enabled: true
-            layer.samplerName: "fuelShader"
-            layer.effect: ShaderEffect {
-                id: fuelShaderMask2
-                property variant v
-                SequentialAnimation {
-                    running: true
-                    loops: Animation.Infinite
-
-                    UniformAnimator {
-                        target: fuelShaderMask2
-                        uniform: "v"
-                        from: 0
-                        to: 1
-                        duration: 5000
-                    }
-                    UniformAnimator {
-                        target: fuelShaderMask2
-                        uniform: "v"
-                        from: 1
-                        to: 0
-                        duration: 5000
-                    }
-                }
-
-                fragmentShader: "
-                     uniform lowp sampler2D fuelShader;
-                     uniform lowp float qt_Opacity;
-                     varying highp vec2 qt_TexCoord0;
-                     uniform lowp float v;
-
-                     void main() {
-                        const lowp vec3 c1 = vec3(0.502,0.545,0.11);
-                        const lowp vec3 c2 = vec3(0.247,0.78,0.871);
-                        lowp vec3 bg = mix(c1, c2, 1.0 - qt_TexCoord0.y);
-
-                        // Animated ramp
-                        lowp float s = smoothstep(0.99 - v, 1.01 - v, 1.0 - qt_TexCoord0.y);
-                        lowp vec3 ramp = vec3(s);
-                        lowp vec4 color = vec4(bg + ramp, 1.0);
-
-                        gl_FragColor = color * texture2D(fuelShader, qt_TexCoord0).a * qt_Opacity;
-                     }
-                 "
-            }
-        }
 
         Image{
             sourceSize: Qt.size(topBar.width,topBar.height)
@@ -808,6 +474,65 @@ Window {
                 }
             }
         }
+        //Right Side
+        IconButton{
+            id:rightIndicator
+            roundIcon: true
+            iconWidth: 45
+            iconHeight: 45
+            checkable: true
+            setIcon:checked ? "qrc:/icons/icons-right-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            SequentialAnimation {
+                running: rightIndicator.checked
+                loops: Animation.Infinite
+                OpacityAnimator {
+                    target: rightIndicator.roundIcon ? rightIndicator.roundIconSource : rightIndicator.iconSource
+                    from: 0;
+                    to: 1;
+                    duration: 500
+                }
+                OpacityAnimator {
+                    target: rightIndicator.roundIcon ? rightIndicator.roundIconSource : rightIndicator.iconSource
+                    from: 1;
+                    to: 0;
+                    duration: 500
+                }
+            }
+        }
+
+        IconButton{
+            id:leftIndicator
+            roundIcon: true
+            iconWidth: 45
+            iconHeight: 45
+            checkable: true
+            setIcon:checked ? "qrc:/icons/icons-left-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-left/icon-park-solid_right-two.svg"
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            SequentialAnimation {
+                running: leftIndicator.checked
+                loops: Animation.Infinite
+                OpacityAnimator {
+                    target: leftIndicator.roundIcon ? leftIndicator.roundIconSource : leftIndicator.iconSource
+                    from: 0;
+                    to: 1;
+                    duration: 500
+                }
+                OpacityAnimator {
+                    target: leftIndicator.roundIcon ? leftIndicator.roundIconSource : leftIndicator.iconSource
+                    from: 1;
+                    to: 0;
+                    duration: 500
+                }
+            }
+        }
+
     }
 
 }

@@ -64,5 +64,6 @@
         <file>icons/Vector 1.svg</file>
         <file>icons/Vector 2.png</file>
         <file>icons/Vector 2.svg</file>
+        <file>background.jpg</file>
     </qresource>
 </RCC>

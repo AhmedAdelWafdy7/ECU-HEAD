@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "scenehelper.h"
+#include "Core/headcore.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<scenehelper>("Qt3D.Examples", 2, 0, "SceneHelper");
 
     QQmlApplicationEngine engine;
+
+    HeadCore carinfo;
+
+    engine.rootContext()->setContextProperty("carinfo",&carinfo);
+
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
         &engine,

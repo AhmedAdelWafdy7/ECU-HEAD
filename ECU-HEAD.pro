@@ -1,4 +1,4 @@
-QT += quick qml core 3dinput
+QT += quick qml core 3dinput serialbus
 QT += 3dcore 3drender 3dquick 3dquick-private
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -6,6 +6,7 @@ QT += 3dcore 3drender 3dquick 3dquick-private
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Core/headcore.cpp \
         main.cpp \
         scenehelper.cpp
 
@@ -24,25 +25,20 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     icons/Road/Frame 33.png \
-    icons/Road/SpeedLimit.svg \
     icons/Road/car.png \
     icons/Road/carRoad.svg \
     icons/Road/mdi_clock-time-four-outline.svg \
     icons/Road/mdi_map-marker-outline.svg \
     icons/Road/mdi_turn-right-bold.svg \
-    icons/Road/mingcute_steering-wheel-fill.svg \
     icons/Road/road.png \
     icons/Road/road2.png \
     icons/Road/road3.svg \
-    icons/Road/ss.svg \
     icons/Vector 1.png \
     icons/Vector 1.svg \
     icons/Vector 2.png \
     icons/Vector 2.svg \
     icons/bottom.png \
     icons/cloud.svg \
-    icons/desal.svg \
-    icons/feaul.svg \
     icons/icons-left-checked/icon-park-solid_right-two.svg \
     icons/icons-left-checked/mdi_car-battery.svg \
     icons/icons-left-checked/mdi_car-handbrake.svg \
@@ -66,8 +62,7 @@ DISTFILES += \
     icons/icons-right/mdi_car-light-dimmed.svg \
     icons/icons-right/mdi_car-light-fog.svg \
     icons/icons-right/mdi_car-light-high.svg \
-    icons/icons-right/mdi_seatbelt.svg \
-    icons/left.svg
+    icons/icons-right/mdi_seatbelt.svg
 
 
 # Default rules for deployment.
@@ -76,4 +71,5 @@ else: unix:!android: target.path = /home/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Core/headcore.h \
     scenehelper.h

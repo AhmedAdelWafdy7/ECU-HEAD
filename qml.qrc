@@ -11,7 +11,6 @@
         <file>main2.qml</file>
         <file>IconButton.qml</file>
         <file>fontawesome.otf</file>
-        <file>Panel.png</file>
         <file>shade.png</file>
         <file>Speedometer.png</file>
         <file>SportCarFloorShadow.png</file>
@@ -48,22 +47,17 @@
         <file>icons/Road/mdi_clock-time-four-outline.svg</file>
         <file>icons/Road/mdi_map-marker-outline.svg</file>
         <file>icons/Road/mdi_turn-right-bold.svg</file>
-        <file>icons/Road/mingcute_steering-wheel-fill.svg</file>
         <file>icons/Road/road.png</file>
         <file>icons/Road/road2.png</file>
         <file>icons/Road/road3.svg</file>
-        <file>icons/Road/SpeedLimit.svg</file>
-        <file>icons/Road/ss.svg</file>
         <file>icons/bottom.png</file>
         <file>icons/cloud.svg</file>
-        <file>icons/desal.svg</file>
-        <file>icons/feaul.svg</file>
-        <file>icons/left.svg</file>
         <file>icons/right.svg</file>
         <file>icons/Vector 1.png</file>
         <file>icons/Vector 1.svg</file>
         <file>icons/Vector 2.png</file>
         <file>icons/Vector 2.svg</file>
         <file>background.jpg</file>
+        <file>ValueSource.qml</file>
     </qresource>
 </RCC>

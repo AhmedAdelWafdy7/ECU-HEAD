@@ -11,7 +11,7 @@ Window {
     width: 1024
     height: 600
     visible: true
-    title: qsTr("Dashboard")
+    title: qsTr("Head Unit")
 
 
     Component.onCompleted:{
@@ -20,6 +20,10 @@ Window {
 
     property alias font: font
 
+
+    ValueSource{
+        id:valueSource
+    }
 
     FontLoader
     {
@@ -33,6 +37,77 @@ Window {
         sourceSize: Qt.size(window.width,window.height)
         anchors.centerIn: parent
         source: "qrc:/background.jpg"
+
+        /*
+        *   Gear Mode
+        */
+    /*
+        //P
+        Rectangle {
+            width:80
+            height:80
+            x:20
+            y: parent.height /2 - height /2 -210
+            color: "black"
+            radius: 20
+
+            Rectangle{
+                width:65
+                height:65
+                anchors.centerIn: parent
+                color: "white"
+                radius: 12
+
+                Text {
+                    text: "P"
+                    font.family: font.name
+                    font.pixelSize: 80
+                    color: "#555555"
+                    x: 8
+                    y: -3
+                }
+            }
+        }
+
+
+        //R
+        Rectangle {
+            width:80
+            height:80
+            x:20
+            y: parent.height /2 - height /2 -70
+            color: "black"
+            radius: 20
+
+            Rectangle{
+                width:65
+                height:65
+                anchors.centerIn: parent
+                color: "white"
+                radius: 12
+
+                Text {
+                    text: "R"
+                    font.family: font.name
+                    font.pixelSize: 80
+                    color: "#555555"
+                    x: 8
+                    y: -3
+                }
+            }
+        }
+
+*/
+
+        Text {
+            text: Math.floor(carinfo.throttle * 100) + "%"
+            font.family: font.name
+            font.pixelSize: 50
+            color: "white"
+            x: 70
+            y: 20
+        }
+
 
         //Left Side
         ColumnLayout{

@@ -1,7 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+//#include "Core/headcore.h"
 #include "scenehelper.h"
-#include "Core/headcore.h"
+#include "Infotainment/control/hvachandler.h"
+#include "Infotainment/control/audiocontroller.h"
+#include "Infotainment/control/system.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,10 +16,14 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    HeadCore carinfo;
+//    HeadCore carinfo;
 
-    engine.rootContext()->setContextProperty("carinfo",&carinfo);
+//    engine.rootContext()->setContextProperty("carinfo", &carinfo);
 
+    System m_system_handler;
+    HVACHandler m_driverHVACHandler;
+    HVACHandler m_passengerHVACHandler;
+    AudioController m_audioController;
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
@@ -29,6 +36,14 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
     engine.load(url);
+
+    QQmlContext *context (engine.rootContext());
+
+    context->setContextProperty( "systemHandler" , &m_system_handler);
+    context->setContextProperty( "driverHVAC" , &m_driverHVACHandler);
+    context->setContextProperty( "passengerHVAC" , &m_passengerHVACHandler);
+    context->setContextProperty( "audioController" , &m_audioController);
+
 
     return app.exec();
 }

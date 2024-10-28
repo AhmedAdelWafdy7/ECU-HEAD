@@ -1,12 +1,16 @@
-QT += quick qml core 3dinput serialbus
+QT += quick qml core 3dinput serialbus quick3d
 QT += 3dcore 3drender 3dquick 3dquick-private
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+TARGET = HeadUnit
+
 SOURCES += \
-        Core/headcore.cpp \
+        Infotainment/control/audiocontroller.cpp \
+        Infotainment/control/hvachandler.cpp \
+        Infotainment/control/system.cpp \
         main.cpp \
         scenehelper.cpp
 
@@ -18,12 +22,16 @@ QML_IMPORT_PATH =
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+
+
+INCLUDEPATH += ~/build-commonapi/capicxx-core-runtime/include
+INCLUDEPATH += ~/build-commonapi/capicxx-someip-runtime/include
+INCLUDEPATH += ~/build-commonapi/vsomeip/interface
+
+
 
 DISTFILES += \
+    cardbus.xml \
     icons/Road/Frame 33.png \
     icons/Road/car.png \
     icons/Road/carRoad.svg \
@@ -71,5 +79,11 @@ else: unix:!android: target.path = /home/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Core/headcore.h \
+    Infotainment/control/audiocontroller.h \
+    Infotainment/control/hvachandler.h \
+    Infotainment/control/system.h \
     scenehelper.h
+
+
+# Include D-Bus adaptor XML file for interprocess communication.
+DBUS_ADAPTORS += cardbus.xml

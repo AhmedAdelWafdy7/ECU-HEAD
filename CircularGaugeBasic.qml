@@ -45,16 +45,28 @@ import QtGraphicalEffects 1.0
  * ```
  */
 
-CircularGauge {
-    id: gauge
-    property bool shadowVisible: true
-    style: CircularGaugeStyle {
-        labelStepSize: 10
-        labelInset: outerRadius / 2.2
+CircularGaugeStyle {
+        property bool shadowVisible: true
+
+        property real xCenter: outerRadius
+        property real yCenter: outerRadius
+        property real labelStepSize: 50
+        property real labelInset: 45
+        property real needleLength: 165
+        property real needleTipWidth: 1
+        property real needleBaseWidth: 10
+        property bool halfGauge: false
+
+
         tickmarkInset: outerRadius / 4.2
         minorTickmarkInset: outerRadius / 4.2
-        minimumValueAngle: -120
-        maximumValueAngle: 120
+        minorTickmarkCount: 4
+
+        minimumValueAngle: -135
+        maximumValueAngle: 135
+
+        tickmarkStepSize: 25
+
         background:Rectangle {
             implicitHeight: gauge.height
             implicitWidth: gauge.width
@@ -62,11 +74,12 @@ CircularGauge {
             anchors.centerIn: parent
             radius: 360
             Canvas {
-                visible: shadowVisible
+                visible: true
                 property int value: gauge.value
                 anchors.fill: parent
                 opacity: 0.03
                 onValueChanged: requestPaint()
+
                 function degreesToRadians(degrees) {
                     return degrees * (Math.PI / 180);
                 }
@@ -114,8 +127,16 @@ CircularGauge {
                 }
             }
         }
-        tickmarkLabel :Item{}
-        tickmark:Item{}
-        minorTickmark:Item{}
+        tickmarkLabel: Text {
+            FontLoader{
+                id: font
+                source: "qrc:/font/Nebula-Regular.otf"
+            }
+            font.family: font.name
+            font.pixelSize: 20
+            text: styleData.value
+
+            color: styleData.index === 8 || styleData.index === 9 ? "red" : "white"
+        }
     }
-}
+

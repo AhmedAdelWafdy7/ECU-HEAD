@@ -4,7 +4,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.15
 import QtQuick.VirtualKeyboard 2.15
-
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Extras 1.4
 
 Window {
     id: window
@@ -14,12 +15,45 @@ Window {
     title: qsTr("Head Unit")
 
 
-    Component.onCompleted:{
-        window.showMaximized()
-    }
-
     property alias font: font
 
+    StackView {
+        id: stack
+        anchors.fill: parent
+        initialItem: panel
+        pushEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        pushExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+        popEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 100
+            }
+        }
+        popExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 100
+            }
+        }
+    }
 
     ValueSource{
         id:valueSource
@@ -38,66 +72,6 @@ Window {
         anchors.centerIn: parent
         source: "qrc:/background.jpg"
 
-        /*
-        *   Gear Mode
-        */
-    /*
-        //P
-        Rectangle {
-            width:80
-            height:80
-            x:20
-            y: parent.height /2 - height /2 -210
-            color: "black"
-            radius: 20
-
-            Rectangle{
-                width:65
-                height:65
-                anchors.centerIn: parent
-                color: "white"
-                radius: 12
-
-                Text {
-                    text: "P"
-                    font.family: font.name
-                    font.pixelSize: 80
-                    color: "#555555"
-                    x: 8
-                    y: -3
-                }
-            }
-        }
-
-
-        //R
-        Rectangle {
-            width:80
-            height:80
-            x:20
-            y: parent.height /2 - height /2 -70
-            color: "black"
-            radius: 20
-
-            Rectangle{
-                width:65
-                height:65
-                anchors.centerIn: parent
-                color: "white"
-                radius: 12
-
-                Text {
-                    text: "R"
-                    font.family: font.name
-                    font.pixelSize: 80
-                    color: "#555555"
-                    x: 8
-                    y: -3
-                }
-            }
-        }
-
-*/
 
         Text {
             text: Math.floor(carinfo.throttle * 100) + "%"
@@ -206,7 +180,41 @@ Window {
                 setIcon:checked ? "qrc:/icons/icons-left/mdi_car-tire-alert.svg" : "qrc:/icons/icons-left/mdi_car-tire-alert.svg"
             }
         }
+        Text {
+            text: "P"
+            font.family: font.name
+            font.pixelSize: 40
+            color: (valueSource.gear === 0) ? "white" : "lightgray"
+            x: 40
+            y: 20
+        }
 
+        Text {
+            text: "D"
+            font.family: font.name
+            font.pixelSize: 40
+            color: (valueSource.gear === 3) ? "black" : "lightgray"
+            x: 40
+            y: 60
+        }
+
+        Text {
+            text: "R"
+            font.family: font.name
+            font.pixelSize: 40
+            color: (valueSource.gear === 1) ? "#FF6868" : "#FFCECE"
+            x: 40
+            y: 100
+        }
+
+        Text {
+            text: "N"
+            font.family: font.name
+            font.pixelSize: 40
+            color: (valueSource.gear === 2) ? "#35CA3D" : "#AEFFAE"
+            x: 40
+            y: 140
+        }
         Image{
             id:topBar
             source: "qrc:/Top Bar.png"
@@ -304,16 +312,16 @@ Window {
             anchors.verticalCenterOffset: 50
             anchors.verticalCenter: parent.verticalCenter
             source: "qrc:/Tacometer.png"
-            
+
             CircularGauge {
                 id:leftIndi
                 property bool accelerating
                 anchors.centerIn: parent
-                width: parent.width * 0.79
-                height: parent.height * 0.79
-                value: accelerating ? maximumValue : 0
-                shadowVisible: true
-                maximumValue: 240
+                width: parent.width * 0.95
+                height: parent.height * 0.95
+                value: valueSource.rpm
+                maximumValue: 450
+                style: RPMGauageStyle{}
                 Component.onCompleted: forceActiveFocus()
                 Behavior on value { NumberAnimation { duration: 1000 }}
                 Keys.onSpacePressed:{
@@ -339,7 +347,7 @@ Window {
                 color: "#2BD150"
                 anchors.centerIn: parent
                 anchors.horizontalCenterOffset: -10
-                anchors.verticalCenterOffset: parent.height * 0.1
+                anchors.verticalCenterOffset: -70
                 layer.effect: DropShadow {
                     anchors.fill: parent
                     horizontalOffset: 5
@@ -350,15 +358,21 @@ Window {
                 }
             }
         }
-        Text{
+        IconButton{
+            text: "WAFDUNIX"
             anchors.top: topBar.bottom
             anchors.horizontalCenter: topBar.horizontalCenter
-            font.pixelSize: 28
-            font.bold: true
+            font.pixelSize: 16
+            font.bold: Font.DemiBold
+            implicitHeight: 80
+            implicitWidth: 120
+            setIconSize: 50
+            checkable: true
+            iconBackground: "transparent"
+            setIconColor :"#4287f5"
             font.weight: Font.Normal
             font.family: "TacticSans-Lgt"
-            color: "#00D1FF"
-            text: qsTr("WAFDUNIX")
+            onClicked: stack.push("qrc:/Infotainment/infotainment.qml")
         }
 
 
@@ -404,19 +418,20 @@ Window {
             anchors.verticalCenterOffset: 50
             anchors.verticalCenter: parent.verticalCenter
             source: "qrc:/Speedometer.png"
-            
+
             CircularGauge {
                 id:rightGuage
                 anchors.centerIn: parent
                 property bool accelerating
-                width: parent.width * 0.85
-                height: parent.height * 0.85
-                value: accelerating ? maximumValue : 0
-                maximumValue: 220
-                shadowVisible: false
+                width: parent.width * 1.1
+                height: parent.height * 1.1
+                value: valueSource.speed
+                maximumValue: 450
                 Behavior on value { NumberAnimation { duration: 1000 }}
+                style: SpeedGauageStyle{}
+
             }
-            
+
             Label{
                 text: "🍃Echo"
                 font.bold: true
@@ -426,7 +441,7 @@ Window {
                 color: "#2BD150"
                 anchors.centerIn: parent
                 anchors.horizontalCenterOffset: -10
-                anchors.verticalCenterOffset: parent.height * 0.1
+                anchors.verticalCenterOffset: -70
                 layer.effect: DropShadow {
                     anchors.fill: parent
                     horizontalOffset: 5
@@ -436,7 +451,9 @@ Window {
                     color: "white"
                 }
             }
-        }
+
+
+    }
 
 
         Image{
@@ -556,7 +573,7 @@ Window {
             iconWidth: 45
             iconHeight: 45
             checkable: true
-            setIcon:checked ? "qrc:/icons/icons-right-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
+            setIcon:checked || (valueSource.right_on_off) ? "qrc:/icons/icons-right-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-right/icon-park-solid_right-two.svg"
             anchors.right: parent.right
             anchors.rightMargin: 20
             anchors.bottom: parent.bottom
@@ -585,7 +602,7 @@ Window {
             iconWidth: 45
             iconHeight: 45
             checkable: true
-            setIcon:checked ? "qrc:/icons/icons-left-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-left/icon-park-solid_right-two.svg"
+            setIcon:checked || (valueSource.left_on_off) ? "qrc:/icons/icons-left-checked/icon-park-solid_right-two.svg" : "qrc:/icons/icons-left/icon-park-solid_right-two.svg"
             anchors.left: parent.left
             anchors.leftMargin: 20
             anchors.bottom: parent.bottom
@@ -611,5 +628,4 @@ Window {
     }
 
 }
-
 

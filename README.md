@@ -65,4 +65,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 - Yocto Project
 - RaspberryPi
 
-For any questions or support, please contact [your email].
+For any questions or support, please contact ahmedadelwafdy782@gmail.com.

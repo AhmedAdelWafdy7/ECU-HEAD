@@ -12,10 +12,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Core Quick SerialBus Gui REQUIRED)
 
-add_executable(HeadUUnit
-        src/HeadUnit.cpp
-        src/HeadUnitQtClass.cpp
-        src/qml.qrc
+add_executable(HeadUnit
+        HeadUnit.cpp
+        HeadUnitQtClass.cpp
+        qml.qrc
+        Infotainment/control/audiocontroller.cpp 
+        Infotainment/control/hvachandler.cpp
+        Infotainment/control/system.cpp 
 )
 
 target_compile_definitions(HeadUnit

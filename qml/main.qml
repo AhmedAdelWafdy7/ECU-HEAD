@@ -6,7 +6,7 @@ import QtQuick.Extras 1.4
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.15
 import QtMultimedia 5.15
-import DataModule 1.0
+
 
 Window {
     id: root
@@ -25,9 +25,7 @@ Window {
         id: valueSource
     }
 
-    HeadUnitQtClass {
-        id: manager
-    }
+    
 
     StackView {
             id: stack

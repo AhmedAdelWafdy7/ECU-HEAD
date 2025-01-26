@@ -2,72 +2,188 @@
 
 HeadUnitQtClass::HeadUnitQtClass(QObject *parent) : QObject(parent)
 {
-    QsensorRpm = 0;
+    m_steering = 0.0;
+    m_throttle = 0.0;
+    m_xpos = 0.0;
+    m_ypos = 0.0;
+    m_zpos = 0.0;
+
+    canDevice = QCanBus::instance()->createDevice("socketcan", "can0", &errorString); // Create a socketcan device
+    if (!canDevice)
+    {
+        qDebug() << "Error creating device: " << errorString;
+        return;
+    }
+
+    connect(canDevice, &QCanBusDevice::framesReceived, this, &HeadUnitQtClass::processFrame);
+
+    if (!canDevice->connectDevice())
+    {
+        qDebug() << "Error connecting device: " << canDevice->errorString();
+        delete canDevice;
+        canDevice = nullptr;
+    }
 }
 
-quint16 HeadUnitQtClass::sensorRpm() const
+HeadUnitQtClass::~HeadUnitQtClass()
 {
-    return QsensorRpm;
+    if (canDevice)
+    {
+        canDevice->disconnectDevice();
+        delete canDevice;
+    }
 }
 
-quint16 HeadUnitQtClass::gear() const
+qreal HeadUnitQtClass::steering() const
 {
-    return Qgear;
+    return m_steering;
 }
 
-quint16 HeadUnitQtClass::direction() const
+qreal HeadUnitQtClass::throttle() const
 {
-    return Qdirection;
+    return m_throttle;
 }
 
-QString HeadUnitQtClass::light() const
+qreal HeadUnitQtClass::xpos() const
 {
-    return Qlight;
+    return m_xpos;
 }
 
-void HeadUnitQtClass::setSensorRpm(uint16_t _sensorRpm)
+qreal HeadUnitQtClass::ypos() const
 {
-    QsensorRpm = _sensorRpm;
-    emit sensorRpmChanged();
+    return m_ypos;
 }
 
-void HeadUnitQtClass::setGear(uint16_t _gear)
+qreal HeadUnitQtClass::zpos() const
 {
-    Qgear = _gear;
-    emit gearChanged();
+    return m_zpos;
 }
 
-void HeadUnitQtClass::setDirection(uint16_t _direction)
+void HeadUnitQtClass::setSteering(qreal steering)
 {
-    Qdirection = _direction;
-    emit directionChanged();
+    if (qFuzzyCompare(m_steering, steering))// If the new value is the same as the old value, return
+        return;
+
+    m_steering = steering;
+    emit steeringChanged();
 }
 
-void HeadUnitQtClass::setLight(QString _light)
+void HeadUnitQtClass::setThrottle(qreal throttle)
 {
-    Qlight = _light;
-    emit lightChanged();
+    if (qFuzzyCompare(m_throttle, throttle))// If the new value is the same as the old value, return
+        return;
+
+    m_throttle = throttle;
+    emit throttleChanged();
 }
 
-Q_INVOKABLE void HeadUnitQtClass::setIPCManagerGear(quint16 _gear)
+void HeadUnitQtClass::setXpos(qreal xpos)
 {
-    sender.IPCManagerTargetProxy->setGearMode(_gear, sender.callStatus, sender.returnMessage);
+    if (qFuzzyCompare(m_xpos, xpos))// If the new value is the same as the old value, return
+        return;
+
+    m_xpos = xpos;
+    emit xposChanged();
 }
 
-Q_INVOKABLE void HeadUnitQtClass::setIPCManagerDirection(quint16 _direction)
+void HeadUnitQtClass::setYpos(qreal ypos)
 {
-    sender.IPCManagerTargetProxy->setDirection(_direction, sender.callStatus, sender.returnMessage);
+    if (qFuzzyCompare(m_ypos, ypos))// If the new value is the same as the old value, return
+        return;
+
+    m_ypos = ypos;
+    emit yposChanged();
 }
 
-Q_INVOKABLE void HeadUnitQtClass::setIPCManagerLight(QString _light)
+void HeadUnitQtClass::setZpos(qreal zpos)
 {
-    sender.IPCManagerTargetProxy->setLight(_light.toStdString(), sender.callStatus, sender.returnMessage);
+    if (qFuzzyCompare(m_zpos, zpos))// If the new value is the same as the old value, return
+        return;
+
+    m_zpos = zpos;
+    emit zposChanged();
 }
 
-Q_INVOKABLE void HeadUnitQtClass::poweroff()
+void HeadUnitQtClass::processFrame()
 {
-    int exitCode = system("sudo poweroff");
+    while (canDevice->framesAvailable())
+    {
+        QCanBusFrame frame = canDevice->readFrame();
+        QByteArray payload = frame.payload();
+
+        for(int i = 0; i < PAYLOAD_SIZE; i++)
+        {
+            data[i] = static_cast<quint8>(payload[i]);
+        }
+
+        if(frame.frameId() == steering_id)
+        {
+            decryption = data[1] + data[2] * 0.01;
+            if(data[0] == 1)
+            {
+                decryption = -decryption;
+            }
+            setSteering(decryption);
+            continue;
+        }
+        else if(frame.frameId() == throttle_id)
+        {
+            decryption = data[1] + data[2] * 0.01;
+            if(data[0] == 1)
+            {
+                decryption = -decryption;
+            }
+            setThrottle(decryption);
+            continue;
+        }
+        else if(frame.frameId() == xpos_id)
+        {
+            decryption = data[1] + data[2] * 0.01;
+            if(data[0] == 1)
+            {
+                decryption = -decryption;
+            }
+            setXpos(decryption);
+            continue;
+        }
+        else if(frame.frameId() == ypos_id)
+        {
+            decryption = data[1] + data[2] * 0.01;
+            if(data[0] == 1)
+            {
+                decryption = -decryption;
+            }
+            setYpos(decryption);
+            continue;
+        }
+        else if(frame.frameId() == zpos_id)
+        {
+            decryption = data[1] + data[2] * 0.01;
+            if(data[0] == 1)
+            {
+                decryption = -decryption;
+            }
+            setZpos(decryption);
+            continue;
+        }
+    }
 }
 
-HeadUnitQtClass carinfo;
+Q_INVOKABLE void HeadUnitQtClass::sendAdsMessage(bool onoff)
+{
+    QCanBusFrame frame;
+    QByteArray payload;
 
+    if(onoff)
+    {
+        payload = QByteArray::fromHex("01000000");
+    }
+    else
+    {
+        payload = QByteArray::fromHex("00000000");
+    }
+
+    frame.setFrameId(adsmode_id);
+    frame.setPayload(payload);
+    canDevice->writeFrame(frame);
+}

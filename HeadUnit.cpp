@@ -9,14 +9,16 @@
 #include "Infotainment/control/hvachandler.h"
 #include "Infotainment/control/audiocontroller.h"
 #include "Infotainment/control/system.h"
-
+#include "youtubesearch.h"
 
 
 int main(int argc, char *argv[])
 {
+    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
-    
+    QtWebEngine::initialize();
+
     QCursor cursor(Qt::BlankCursor);
     app.setOverrideCursor(cursor);
     
@@ -25,7 +27,7 @@ int main(int argc, char *argv[])
     HeadUnitQtClass carinfo;
     engine.rootContext()->setContextProperty("carinfo", &carinfo);
 
-
+    qmlRegisterType<YoutubeSearch>("YouTubeSearch", 1, 0, "YouTubeSearch");
     System m_system_handler;
     HVACHandler m_driverHVACHandler;
     HVACHandler m_passengerHVACHandler;

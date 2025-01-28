@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.15
+import QtWebEngine 1.8
+import YouTubeSearch 1.0
 import "../Icons"
 import "../"
 
@@ -25,6 +27,10 @@ Rectangle {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/Infotainment/assets/carRender.jpg"
     }
+    YouTubeSearch {
+        id: youTubeSearch
+    }
+
 
     RowLayout {
         id: root

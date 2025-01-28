@@ -1,0 +1,39 @@
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+
+Item {
+    id: mainScreen
+    width: 1024
+    height: 600
+    visible: true
+    function open() {
+        // Implement the logic to open the main screen
+        console.log("MainScreen opened");
+        mainScreen.visible = true; // Example action to make the screen visible
+        appLauncher.open();
+    }
+
+    LaunchPad {
+        id: appLauncher
+        anchors.centerIn: parent
+        onYoutubeRequested: {
+            youtubeLoader.active = true
+        }
+    }
+
+    Loader {
+        id: youtubeLoader
+        anchors.fill: parent
+        active: false
+        sourceComponent: ContentsLayout {
+            youTubeSearch: youTubeSearchInternal // Pass the YouTubeSearch instance
+        }
+        onStatusChanged: {
+            if (status === Loader.Error) {
+                console.error("Failed to load:", sourceComponent.errorString());
+            }
+        }
+    }
+
+    
+}

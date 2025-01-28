@@ -12,6 +12,8 @@
         <file>image/SportCarFloorShadow.png</file>
         <file>image/Tacometer.png</file>
         <file>image/Top Bar.png</file>
+        <file>image/search_glass.png</file>
+        <file>image/X.png</file>
         <file>image/tr.jpg</file>
         <file>icons/icons-left/icon-park-solid_right-two.svg</file>
         <file>icons/icons-left/mdi_car-battery.svg</file>
@@ -74,6 +76,7 @@
         <file>Infotainment/assets/icons/Seatbelt.svg</file>
         <file>Infotainment/assets/icons/sedan-car-front.png</file>
         <file>Infotainment/assets/icons/spotify.png</file>
+        <file>Infotainment/assets/youtube.png</file>
         <file>Infotainment/assets/icons/telephone-call.png</file>
         <file>Infotainment/assets/icons/video.png</file>
         <file>Infotainment/assets/icons/zoom.png</file>
@@ -99,7 +102,11 @@
         <file>Infotainment/Parts/Icons/IconButton.qml</file>
         <file>Infotainment/Parts/Icons/LaunchButton.qml</file>
         <file>Infotainment/Parts/Icons/LaunchPad.qml</file>
+        <file>Infotainment/Parts/Icons/MainScreen.qml</file>
         <file>Infotainment/Parts/LeftScreen/LeftScreen.qml</file>
+        <file>Infotainment/Parts/Icons/ContentsLayout.qml</file>
+        <file>Infotainment/Parts/Icons/SearchLayout.qml</file>
+        <file>Infotainment/Parts/Icons/YoutubeLayout.qml</file>
         <file>Infotainment/Parts/RightScreen/NavigationScreenHelper.qml</file>
         <file>Infotainment/Parts/RightScreen/NavigationSearchBox.qml</file>
         <file>Infotainment/Parts/RightScreen/RightScreen.qml</file>

@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Core Quick SerialBus Gui REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Multimedia SerialBus Gui Network WebEngine REQUIRED)
 
 add_executable(HeadUnit
         HeadUnit.cpp
@@ -18,12 +18,13 @@ add_executable(HeadUnit
         qml.qrc
         Infotainment/control/audiocontroller.cpp 
         Infotainment/control/hvachandler.cpp
-        Infotainment/control/system.cpp 
+        Infotainment/control/system.cpp
+        youtubesearch.cpp
 )
 
 target_compile_definitions(HeadUnit
 PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(HeadUnit
-PRIVATE Qt5::Core Qt5::Quick Qt5::SerialBus Qt5::Gui)
+PRIVATE Qt5::Core Qt5::Quick Qt5::SerialBus Qt5::Gui Qt5::Network Qt5::Multimedia Qt5::WebEngine)
 
 install(TARGETS HeadUnit DESTINATION /usr/bin/)

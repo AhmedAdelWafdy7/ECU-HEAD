@@ -30,7 +30,7 @@ Page {
     property var adaptive: new Responsive.AdaptiveLayoutManager(root.width,root.height, root.width,root.height)
     BottomBar {
         id: bottomBar
-        onOpenLauncher: launcher.open()
+        onOpenLauncher: mainScreen.open()
     }
 
     LeftScreen{
@@ -48,8 +48,8 @@ Page {
         }
     }
 
-    LaunchPad{
-        id: launcher
+    MainScreen{
+        id: mainScreen
         y: (root.height - height) / 2 + 120
         x: (root.width - width ) / 2
     }

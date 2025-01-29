@@ -6,12 +6,14 @@ Item {
     width: 1024
     height: 600
     visible: true
+
     function open() {
-        // Implement the logic to open the main screen
         console.log("MainScreen opened");
-        mainScreen.visible = true; // Example action to make the screen visible
+        mainScreen.visible = true;
         appLauncher.open();
     }
+
+    
 
     LaunchPad {
         id: appLauncher
@@ -26,7 +28,7 @@ Item {
         anchors.fill: parent
         active: false
         sourceComponent: ContentsLayout {
-            youTubeSearch: youTubeSearchInternal // Pass the YouTubeSearch instance
+            youTubeSearch: youTubeSearchInternal
         }
         onStatusChanged: {
             if (status === Loader.Error) {
@@ -34,6 +36,4 @@ Item {
             }
         }
     }
-
-    
 }

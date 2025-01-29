@@ -12,9 +12,13 @@
         <file>image/SportCarFloorShadow.png</file>
         <file>image/Tacometer.png</file>
         <file>image/Top Bar.png</file>
-        <file>image/search_glass.png</file>
-        <file>image/X.png</file>
+        <file>image/search_glass.svg</file>
+        <file>image/X.svg</file>
         <file>image/tr.jpg</file>
+        <file>image/fullscreen.svg</file>
+        <file>image/fullscreen-exit.svg</file>
+        <file>image/channel.svg</file>
+        <file>image/calendar.svg</file>
         <file>icons/icons-left/icon-park-solid_right-two.svg</file>
         <file>icons/icons-left/mdi_car-battery.svg</file>
         <file>icons/icons-left/mdi_car-handbrake.svg</file>

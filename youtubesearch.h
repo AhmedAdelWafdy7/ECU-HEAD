@@ -1,34 +1,35 @@
 #ifndef YOUTUBESEARCH_H
 #define YOUTUBESEARCH_H
 
-#include <QObject>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QNetworkAccessManager>
 #include <QtWebEngine>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QNetworkReply>
 #include <QSslConfiguration>
 
-class YoutubeSearch : public QObject
-{
+class YouTubeSearch : public QObject {
     Q_OBJECT
 public:
-    explicit YoutubeSearch(QObject *parent = nullptr, const QString &apiKey = QString());
+    YouTubeSearch();
 
-    Q_INVOKABLE void searchVideos(const QString& search_query);
+    //Q_INVOKABLE: Using macro, can call member function of C++ in QML
+    Q_INVOKABLE void searchVideos(const QString& query);
 
 signals:
-    void searchResultsReady(const QJsonArray& search_results);
+    void searchStarted();                     
+    void searchFinished();             
+    void searchError(const QString &message); 
+    void searchResultsReady(const QJsonArray& results);
 
 private slots:
-    void handleNetworkData(QNetworkReply* network_reply);
+    void handleNetworkData(QNetworkReply *reply);
 
 private:
-    QString m_apiKey;
     QNetworkAccessManager *manager;
 };
 

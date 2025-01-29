@@ -50,8 +50,7 @@ Page {
 
     MainScreen{
         id: mainScreen
-        y: (root.height - height) / 2 + 120
-        x: (root.width - width ) / 2
+        anchors.fill: parent
     }
 
 }

@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     HeadUnitQtClass carinfo;
     engine.rootContext()->setContextProperty("carinfo", &carinfo);
 
-    qmlRegisterType<YoutubeSearch>("YouTubeSearch", 1, 0, "YouTubeSearch");
+    qmlRegisterType<YouTubeSearch>("YouTubeSearch", 1, 0, "YouTubeSearch");
     System m_system_handler;
     HVACHandler m_driverHVACHandler;
     HVACHandler m_passengerHVACHandler;

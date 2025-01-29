@@ -1,53 +1,43 @@
 #include "youtubesearch.h"
 
-YoutubeSearch::YoutubeSearch(QObject *parent, const QString &apiKey)
-    : QObject(parent), m_apiKey(apiKey)
-{
+YouTubeSearch::YouTubeSearch() {
     manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished, this, &YoutubeSearch::handleNetworkData);
+    connect(manager, &QNetworkAccessManager::finished, this, &YouTubeSearch::handleNetworkData);
 }
 
-void YoutubeSearch::searchVideos(const QString& search_query)
-{
-    QUrl url("https://www.googleapis.com/youtube/v3/search");
-    QUrlQuery queryParams;
-    queryParams.addQueryItem("part", "snippet");
-    queryParams.addQueryItem("q", QUrl::toPercentEncoding(search_query));
-    queryParams.addQueryItem("maxResults", "5");
-    queryParams.addQueryItem("key", "AIzaSyBUbRpC3g43ea6DH7Yp1ngQcyOYGH5UNRY");
-    url.setQuery(queryParams);
-    
-    QNetworkRequest request(url);
+void YouTubeSearch::searchVideos(const QString& query) {
+    emit searchStarted();
+    QNetworkRequest request(QUrl("https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + query + 
+    "&maxResults=5&key=AIzaSyBUbRpC3g43ea6DH7Yp1ngQcyOYGH5UNRY"));
 
-    QSslConfiguration config = request.sslConfiguration();
-    config.setPeerVerifyMode(QSslSocket::VerifyNone);
+    QSslConfiguration conf = request.sslConfiguration();
+    conf.setPeerVerifyMode(QSslSocket::VerifyNone);
     QFile certFile("/etc/ssl/certs/youtube.pem");
-
-    if(certFile.open(QIODevice::ReadOnly))
-    {
+    
+    if(certFile.open(QIODevice::ReadOnly)) {
         QSslCertificate cert(&certFile, QSsl::Pem);
-        config.setCaCertificates(QList<QSslCertificate>() << cert);
+        conf.setCaCertificates(QList<QSslCertificate>() << cert);
     }
+    
+    request.setSslConfiguration(conf);
 
-    request.setSslConfiguration(config);    
     manager->get(request);
 }
 
-void YoutubeSearch::handleNetworkData(QNetworkReply* network_reply)
-{
-    if(network_reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray response = network_reply->readAll();
-        QJsonDocument json_doc = QJsonDocument::fromJson(response);
-        QJsonObject json_obj = json_doc.object();
-        QJsonArray items = json_obj["items"].toArray();
-        
-        emit searchResultsReady(items);
-    }
-    else
-    {
-        qDebug() << "Error: " << network_reply->errorString();
-    }
+void YouTubeSearch::handleNetworkData(QNetworkReply *reply) {
+    auto deferSearchFinished = qScopeGuard([this](){ emit searchFinished(); });
+    if(reply->error() == QNetworkReply::NoError) {
+        QByteArray responseData = reply->readAll();
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
+        QJsonObject jsonObj = jsonDoc.object();
+        QJsonArray jsonArray = jsonObj["items"].toArray();
 
-    network_reply->deleteLater();
+
+        // Send data to QML
+        emit searchResultsReady(jsonArray);
+    } else {
+        qDebug() << "Error:" << reply->errorString();
+        emit searchError(reply->errorString());
+    }
+    reply->deleteLater();
 }

@@ -18,6 +18,10 @@ class HeadUnitQtClass : public QObject
     Q_PROPERTY(qreal xpos READ xpos WRITE setXpos NOTIFY xposChanged)
     Q_PROPERTY(qreal ypos READ ypos WRITE setYpos NOTIFY yposChanged)
     Q_PROPERTY(qreal zpos READ zpos WRITE setZpos NOTIFY zposChanged)
+    Q_PROPERTY(qreal gear READ gear WRITE setGear NOTIFY gearChanged)
+    Q_PROPERTY(qreal direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(quint16 sensorRpm READ sensorRpm WRITE setSensorRpm NOTIFY sensorRpmChanged)
+    Q_PROPERTY(QString light READ light WRITE setLight NOTIFY lightChanged)
 
 private:
     qreal m_steering;
@@ -25,6 +29,11 @@ private:
     qreal m_xpos;
     qreal m_ypos;
     qreal m_zpos;
+    quint16 QsensorRpm;
+    quint16 Qgear;
+    quint16 Qdirection;
+    QString Qlight;
+
 
     quint32 steering_id = QString("0x00").toUInt(nullptr, 16);
     quint32 throttle_id = QString("0x01").toUInt(nullptr, 16);
@@ -45,6 +54,16 @@ private slots:
 public:
     explicit HeadUnitQtClass(QObject *parent = nullptr);
     ~HeadUnitQtClass();
+
+    quint16 sensorRpm() const;
+    quint16 gear() const;
+    quint16 direction() const;
+    QString light() const;
+
+    void setSensorRpm(uint16_t _sensorRpm);
+    void setGear(uint16_t _gear);
+    void setDirection(uint16_t _direction);
+    void setLight(QString _light);
 
     qreal steering() const;
     void setSteering(qreal steering);
@@ -69,8 +88,12 @@ signals:
     void xposChanged();
     void yposChanged();
     void zposChanged();
+    void gearChanged();
+    void directionChanged();
+    void sensorRpmChanged();
+    void lightChanged();
 };
-
+extern HeadUnitQtClass carinfo;
 
 
 #endif

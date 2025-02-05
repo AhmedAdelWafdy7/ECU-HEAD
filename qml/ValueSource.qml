@@ -1,11 +1,14 @@
 import QtQuick 2.2
-
+import DataModule 1.0
 
 Item {
     id: valueSource
 
-    
+    HeadUnitQtClass {
+        id: manager
+    }
 
+    property real steering: carinfo.steering
     property int gear: carinfo.gear
     property int direction: carinfo.direction
 
@@ -24,6 +27,15 @@ Item {
         valueSource.left_on_off = false;
         valueSource.right_on_off = false;
         valueSource.initial_delay = !(valueSource.direction === 0)
+    }
+    onSteeringChanged: {
+        valueSource.blink = !(valueSource.steering > -0.5 && valueSource.steering < 0.5);
+        valueSource.left_direction = (valueSource.steering < -0.5);
+        valueSource.right_direction = (valueSource.steering > 0.5);
+        if (!valueSource.emergency) {
+            valueSource.left_on_off = false;
+            valueSource.right_on_off = false;
+        }
     }
 
     function blinking() {

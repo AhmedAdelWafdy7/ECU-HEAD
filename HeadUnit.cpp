@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     HeadUnitQtClass carinfo;
     engine.rootContext()->setContextProperty("carinfo", &carinfo);
-
+    qmlRegisterType<HeadUnitQtClass>("DataModule", 1, 0, "HeadUnitQtClass");
     qmlRegisterType<YouTubeSearch>("YouTubeSearch", 1, 0, "YouTubeSearch");
     System m_system_handler;
     HVACHandler m_driverHVACHandler;

@@ -7,6 +7,7 @@ HeadUnitQtClass::HeadUnitQtClass(QObject *parent) : QObject(parent)
     m_xpos = 0.0;
     m_ypos = 0.0;
     m_zpos = 0.0;
+    QsensorRpm = 0;
 
     canDevice = QCanBus::instance()->createDevice("socketcan", "can0", &errorString); // Create a socketcan device
     if (!canDevice)
@@ -187,3 +188,48 @@ Q_INVOKABLE void HeadUnitQtClass::sendAdsMessage(bool onoff)
     frame.setPayload(payload);
     canDevice->writeFrame(frame);
 }
+
+quint16 HeadUnitQtClass::sensorRpm() const
+{
+    return QsensorRpm;
+}
+
+quint16 HeadUnitQtClass::gear() const
+{
+    return Qgear;
+}
+
+quint16 HeadUnitQtClass::direction() const
+{
+    return Qdirection;
+}
+
+QString HeadUnitQtClass::light() const
+{
+    return Qlight;
+}
+
+void HeadUnitQtClass::setSensorRpm(uint16_t _sensorRpm)
+{
+    QsensorRpm = _sensorRpm;
+    emit sensorRpmChanged();
+}
+
+void HeadUnitQtClass::setGear(uint16_t _gear)
+{
+    Qgear = _gear;
+    emit gearChanged();
+}
+
+void HeadUnitQtClass::setDirection(uint16_t _direction)
+{
+    Qdirection = _direction;
+    emit directionChanged();
+}
+
+void HeadUnitQtClass::setLight(QString _light)
+{
+    Qlight = _light;
+    emit lightChanged();
+}
+

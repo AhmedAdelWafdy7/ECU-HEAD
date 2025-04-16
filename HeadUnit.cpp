@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QCursor>
-
 #include "HeadUnitQtClass.hpp"
 
 
@@ -51,7 +50,5 @@ int main(int argc, char *argv[])
     context->setContextProperty( "passengerHVAC" , &m_passengerHVACHandler);
     context->setContextProperty( "audioController" , &m_audioController);
     
-    
-
     return app.exec();
 }

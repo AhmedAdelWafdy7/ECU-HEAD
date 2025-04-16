@@ -13,8 +13,8 @@ import "qrc:/Infotainment/LayoutManager.js" as Responsive
 
 Page {
     id: root
-    width: 1024
-    height: 600
+    width: Screen.width
+    height: Screen.height
     visible: true
     title: qsTr("Infotainment")
 

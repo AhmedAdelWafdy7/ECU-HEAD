@@ -2,9 +2,18 @@
 
 This repository is for the ECU-HeadUnit part of the Autonomous-Driving-System project. The ECU-HeadUnit is based on an independent RaspberryPi board and displays information such as the vehicle's driving status and location on the head unit screen. The head unit was developed with QT5 and interacts with ECU-Core via CAN communication. This repository includes the head unit developed in Ubuntu OS. By following the documentation, you can set up the environment and run the head unit on Ubuntu. However, in the overall project, this head unit runs in an OS based on the Yocto Project and is updated via OTA.
 
-<p align="center">
-  <img src="doc/HeadUnit1.png" alt="ECU-HeadUnit Logo" width="200"/>
-</p>
+## Screenshots
+
+<div align="center">
+  <img src="doc/HeadUnit1.png" alt="ECU-HeadUnit Main Screen" width="80%"/>
+  <p><em>Main interface of the Head Unit</em></p>
+  
+  <img src="doc/HeadUnit2.png" alt="ECU-HeadUnit Navigation" width="80%"/>
+  <p><em>Navigation display with vehicle status</em></p>
+  
+  <img src="doc/HeadUnit3.png" alt="ECU-HeadUnit Settings" width="80%"/>
+  <p><em>Vehicle settings and configuration panel</em></p>
+</div>
 
 ## Features
 

@@ -1,0 +1,9 @@
+module Icons
+Icon 1.0 Icon.qml
+IconButton 1.0 IconButton.qml
+LaunchButton 1.0 LaunchButton.qml
+LaunchPad 1.0 LaunchPad.qml
+MainScreen 1.0 MainScreen.qml
+ContentsLayout 1.0 ContentsLayout.qml
+SearchLayout 1.0 SearchLayout.qml
+YoutubeLayout 1.0 YoutubeLayout.qml

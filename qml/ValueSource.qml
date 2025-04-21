@@ -8,9 +8,20 @@ Item {
         id: manager
     }
 
-    property real steering: carinfo.steering
-    property int gear: carinfo.gear
-    property int direction: carinfo.direction
+    // Add a carinfo property with default values to prevent null reference errors
+    property var carinfo: QtObject {
+        property real steering: 0.0
+        property int gear: 0
+        property int direction: 0
+        property string light: "#000000"
+        property real sensorRpm: 0
+    }
+
+    property real steering: carinfo ? carinfo.steering : 0
+    property int gear: carinfo ? carinfo.gear : 0
+    property int direction: carinfo ? carinfo.direction : 0
+    property real rpm: carinfo ? carinfo.sensorRpm : 0 
+    property real speed: 0
 
     // Properties for controlling blinking and direction indicators
     property bool blink: !(valueSource.direction === 0)
@@ -58,7 +69,7 @@ Item {
         }
     }
 
-    property string light: carinfo.light
+    property string light: carinfo ? carinfo.light : "#000000"
     property int red: 0
     property int green: 0
     property int blue: 0

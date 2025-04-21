@@ -118,5 +118,10 @@
         <file>Infotainment/infotainment.qml</file>
         <file>Infotainment/LayoutManager.js</file>
         <file>Infotainment/assets/icons/speedometer-svgrepo-com.svg</file>
+        <file>Infotainment/Parts/BottomBar/qmldir</file>
+        <file>Infotainment/Parts/Icons/qmldir</file>
+        <file>Infotainment/Parts/LeftScreen/qmldir</file>
+        <file>Infotainment/Parts/RightScreen/qmldir</file>
+        <file>Infotainment/Parts/qmldir</file>
     </qresource>
 </RCC>

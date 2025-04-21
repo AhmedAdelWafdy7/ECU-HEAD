@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.15
 Button {
     id: control
     property bool isGlow: false
+    property color textColor: "#FFFFFF"
 
     implicitHeight: 128
     implicitWidth: 128
@@ -29,7 +30,7 @@ Button {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             text: control.text
             font: control.font
-            color: textColor
+            color: control.textColor
         }
 
         Item { Layout.fillHeight: true }

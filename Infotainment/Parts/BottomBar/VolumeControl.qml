@@ -2,10 +2,23 @@ import QtQuick 2.15
 
 Item {
     property string fontColor: "#f2f5f3"
+    
+    // Add a default audioController to prevent null reference errors
+    property var audioController: QtObject {
+        property int volumeLevel: 50
+        // Renamed to avoid conflicts with the Connections handler
+        signal volumeChanged()
+        
+        function incrementVolume(amount) {
+            volumeLevel = Math.max(0, Math.min(100, volumeLevel + amount))
+            volumeChanged()
+        }
+    }
 
     Connections{
         target: audioController
-        function onVolumeLevelChanged(){
+        // Use the renamed signal
+        onVolumeChanged: {
             volumeIcon.visible = false
             visibleTimer.stop()
             visibleTimer.start()

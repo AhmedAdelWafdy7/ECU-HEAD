@@ -9,7 +9,7 @@ import "../"
 
 
 Rectangle{
-
+    id: navigationScreenHelper
     property bool runMenuAnimation: false
     color: "black"
     visible: true
@@ -43,15 +43,23 @@ Rectangle{
         }
     }
 
-    // Map Page
-    RightScreen {
-        id: rightScreen
-        enableGradient: true
-        visible: false
+    // Create the RightScreen as a component to fix anchoring issues
+    Component {
+        id: rightScreenComponent
+        RightScreen {
+            enableGradient: true
+            // Fix anchoring by not trying to reference parent components
+            anchors.fill: undefined
+            width: mainApplicationStackView.width
+            height: mainApplicationStackView.height
+        }
     }
 
     Component.onCompleted: {
-        mainApplicationStackView.push(rightScreen)
-        rightScreen.startAnimation()
+        // Push the component instance rather than a direct reference
+        var screen = mainApplicationStackView.push(rightScreenComponent)
+        if (screen) {
+            screen.startAnimation()
+        }
     }
 }

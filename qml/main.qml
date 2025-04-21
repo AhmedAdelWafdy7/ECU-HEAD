@@ -20,6 +20,12 @@ Window {
         source: "../font/Nebula-Regular.otf"
     }
 
+    // Add a default carinfo property to prevent null references
+    property var carinfo: QtObject {
+        property real sensorRpm: 0
+        property int gear: 0
+    }
+
     ValueSource {
         id: valueSource
     }

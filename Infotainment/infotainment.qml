@@ -18,6 +18,21 @@ Page {
     visible: true
     title: qsTr("Infotainment")
 
+    // Add a back button to return to the main dashboard
+    Button {
+        id: backButton
+        anchors {
+            top: parent.top
+            left: parent.left
+            margins: 10
+        }
+        text: "Back to Dashboard"
+        onClicked: {
+            if (stack) stack.pop()
+        }
+        z: 10 // Ensure it's above other elements
+    }
+
     onWidthChanged: {
         if(adaptive)
         adaptive.updateWindowWidth(root.width)
@@ -28,9 +43,12 @@ Page {
             adaptive.updateWindowHeight(root.height)
     }
     property var adaptive: new Responsive.AdaptiveLayoutManager(root.width,root.height, root.width,root.height)
+    
     BottomBar {
         id: bottomBar
-        onOpenLauncher: mainScreen.open()
+        onOpenLauncher: {
+            if (mainScreen) mainScreen.open()
+        }
     }
 
     LeftScreen{
@@ -48,9 +66,19 @@ Page {
         }
     }
 
-    MainScreen{
-        id: mainScreen
+    // Use a Loader for MainScreen to ensure it's loaded properly
+    Loader {
+        id: mainScreenLoader
         anchors.fill: parent
+        source: "Parts/Icons/MainScreen.qml"
+        asynchronous: true
+        
+        onLoaded: {
+            // Expose the open method from the loaded component
+            mainScreen = item
+        }
     }
-
+    
+    // Property to hold the reference to the MainScreen component
+    property var mainScreen: null
 }

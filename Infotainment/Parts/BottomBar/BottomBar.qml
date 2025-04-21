@@ -65,7 +65,7 @@ Rectangle {
         anchors{
             top: parent.top
             bottom: parent.bottom
-            right: volume.right
+            right: volumeControl.left
             rightMargin: 150
             left: carSettingsIcon.right
         }
@@ -80,7 +80,6 @@ Rectangle {
             top: parent.top
             bottom: parent.bottom
         }
-
     }
 }
 

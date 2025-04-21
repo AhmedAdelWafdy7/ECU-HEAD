@@ -11,18 +11,42 @@ Popup {
     modal: true
     dim: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    
+    // Add property to manage OpenGL context
+    property bool optimizeRendering: true
+
+    // Define color properties to replace Theme dependency
+    property color blackColor: "#000000"
+    
+    // Create local alphaColor function since Theme one is not available
+    function alphaColor(baseColor, alpha) {
+        return Qt.rgba(
+            baseColor.r,
+            baseColor.g,
+            baseColor.b,
+            alpha
+        );
+    }
 
     signal youtubeRequested()
+
+    // Set focus to false when hidden to prevent focus issues across OpenGL contexts
+    onVisibleChanged: {
+        if (!visible) {
+            forceActiveFocus()
+        }
+    }
 
     background: Rectangle {
         anchors.fill: parent
         radius: 9
-        color: Theme.alphaColor(Theme.black, 0.8)
-        layer.enabled: true
+        color: alphaColor(blackColor, 0.8)
+        layer.enabled: optimizeRendering
         layer.effect: DropShadow {
             radius: 8
             samples: 16
             color: "#80000000"
+            cached: true
         }
     }
 
@@ -91,14 +115,21 @@ Popup {
         }
     }
 
-    // Animation effects
+    // Animation effects optimized to prevent texture creation issues
     enter: Transition {
-        NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 150 }
-        NumberAnimation { property: "scale"; from: 0.9; to: 1; duration: 150 }
+        NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 150; easing.type: Easing.OutQuad }
+        NumberAnimation { property: "scale"; from: 0.9; to: 1; duration: 150; easing.type: Easing.OutQuad }
     }
 
     exit: Transition {
-        NumberAnimation { property: "opacity"; to: 0; duration: 100 }
-        NumberAnimation { property: "scale"; to: 0.95; duration: 100 }
+        NumberAnimation { property: "opacity"; to: 0; duration: 100; easing.type: Easing.InQuad }
+        NumberAnimation { property: "scale"; to: 0.95; duration: 100; easing.type: Easing.InQuad }
+    }
+    
+    // Ensure resources are properly cleaned up
+    Component.onDestruction: {
+        if (background && background.layer && background.layer.effect) {
+            background.layer.effect.destroy()
+        }
     }
 }

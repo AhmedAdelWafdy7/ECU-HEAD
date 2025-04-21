@@ -1,0 +1,4 @@
+module RightScreen
+RightScreen 1.0 RightScreen.qml
+NavigationScreenHelper 1.0 NavigationScreenHelper.qml
+NavigationSearchBox 1.0 NavigationSearchBox.qml

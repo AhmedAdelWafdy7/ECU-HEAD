@@ -20,6 +20,25 @@ Rectangle {
     }
     color: "white"
 
+    // Add back button to return to main screen
+    Button {
+        id: backToMainButton
+        text: "Back to Main"
+        anchors {
+            top: parent.top
+            left: parent.left
+            margins: 10
+        }
+        z: 10 // Ensure it's above other elements
+        
+        onClicked: {
+            // Navigate back to main screen
+            if (stack) {
+                stack.pop()
+            }
+        }
+    }
+
     Image {
         id: carRender
         anchors.centerIn: parent
@@ -27,10 +46,62 @@ Rectangle {
         fillMode: Image.PreserveAspectFit
         source: "qrc:/Infotainment/assets/carRender.jpg"
     }
-    YouTubeSearch {
+    
+    // Use the stub implementation with hardcoded results instead of requiring API key
+    QtObject {
         id: youTubeSearch
+        
+        signal searchResultsReady(var results)
+        signal searchStarted()
+        signal searchError(string message)
+        
+        function searchVideos(query) {
+            console.log("Search requested for:", query)
+            // Simulate search with placeholder data
+            searchStarted()
+            
+            // Create dummy results after a short delay
+            searchTimer.start()
+        }
+        
+        property Timer searchTimer: Timer {
+            interval: 1000
+            onTriggered: {
+                // Supply dummy search results
+                var mockResults = [
+                    {
+                        id: { videoId: "dQw4w9WgXcQ" },
+                        snippet: {
+                            title: "Sample Video 1",
+                            description: "This is a placeholder video description.",
+                            channelTitle: "Sample Channel",
+                            publishedAt: new Date().toISOString(),
+                            thumbnails: {
+                                medium: {
+                                    url: "qrc:/image/shade.png"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: { videoId: "LXb3EKWsInQ" },
+                        snippet: {
+                            title: "Sample Video 2",
+                            description: "Another placeholder description.",
+                            channelTitle: "Demo Channel",
+                            publishedAt: new Date().toISOString(),
+                            thumbnails: {
+                                medium: {
+                                    url: "qrc:/icons/Vector 1.png"
+                                }
+                            }
+                        }
+                    }
+                ]
+                youTubeSearch.searchResultsReady(mockResults)
+            }
+        }
     }
-
 
     RowLayout {
         id: root

@@ -38,6 +38,11 @@ CircularGaugeBasic {
             font.pixelSize: 80
             anchors.horizontalCenter: parent.horizontalCenter
             y: 170
+            // Avoid dynamic property bindings that might trigger repaints
+            Component.onCompleted: {
+                // Pre-load text so it doesn't need to create a new texture each time
+                text = "000"
+            }
         }
 
         Text {

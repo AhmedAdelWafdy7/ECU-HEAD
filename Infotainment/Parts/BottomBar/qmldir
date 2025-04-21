@@ -1,0 +1,4 @@
+module BottomBar
+BottomBar 1.0 BottomBar.qml
+HVAC 1.0 HVAC.qml
+VolumeControl 1.0 VolumeControl.qml

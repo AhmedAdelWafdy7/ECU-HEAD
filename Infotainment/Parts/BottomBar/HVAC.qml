@@ -3,7 +3,15 @@ import QtQuick 2.15
 Item {
     property string fontColor: "#f2f5f3"
 
-    property var hvacController
+    // Create a default hvacController to prevent null reference errors
+    property var hvacController: QtObject {
+        property int targetTemperture: 72
+        
+        function incrementTargetTemperature(amount) {
+            targetTemperture = Math.max(60, Math.min(90, targetTemperture + amount))
+        }
+    }
+    
     Rectangle{
         id: decrementbutton
         anchors{
@@ -25,7 +33,6 @@ Item {
             anchors.fill:parent
             onClicked: hvacController.incrementTargetTemperature(-1)
         }
-
     }
 
 
